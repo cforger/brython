@@ -80,6 +80,14 @@ $ObjectDict.__dir__ = function(self) {
 
 $ObjectDict.__eq__ = function(self,other){
     // equality test defaults to identity of objects
+    //test_issue_1393
+    var _class=$B.get_class(self)
+    if (_class.$native || _class.__name__ == 'function') {
+       var _class1=$B.get_class(other)
+       if (!_class1.$native && _class1.__name__ != 'function') {
+          return _b_.getattr(other, '__eq__')(self)
+       }
+    }
     return self===other
 }
 
